@@ -22,9 +22,15 @@ Usage is easy.
 	
 	// post a count stat using a timestamp
 	StatHat::publishCount('page views', 1, time());
+
+	// post a value stat
+	StatHat::publishValue('server load', 1.1);
+	
+	// post a value stat using a timestamp
+	StatHat::publishValue('server load', 1.2, time());
 	
 	// commit the transaction
-	// this posts both count stats to the server
+	// this posts all stats to the server
 	StatHat::commitTransaction();
 	
 Transactions are optional. If you don't `StatHat::startTransaction()`, all stats are posted immediately.
