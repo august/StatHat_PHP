@@ -152,18 +152,18 @@ class StatHat {
 
 		$parts = parse_url(STATHAT_EZ_ENDPOINT);
 
-        $fp = fsockopen($parts['host'], 80, $errno, $errstr, 30);
+		$fp = fsockopen($parts['host'], 80, $errno, $errstr, 30);
 
-        $out = "POST {$parts['path']} HTTP/1.1\r\n";
-        $out .= "Host: {$parts['host']}\r\n";
-        $out .= "Content-Type: application/json\r\n";
-        $out .= "Content-Length: " . strlen($json) . "\r\n";
-        $out .= "Connection: Close\r\n\r\n";
-        
-        $out .= $json;
+		$out = "POST {$parts['path']} HTTP/1.1\r\n";
+		$out .= "Host: {$parts['host']}\r\n";
+		$out .= "Content-Type: application/json\r\n";
+		$out .= "Content-Length: " . strlen($json) . "\r\n";
+		$out .= "Connection: Close\r\n\r\n";
 
-        fwrite($fp, $out);
-        fclose($fp);
+		$out .= $json;
+
+		fwrite($fp, $out);
+		fclose($fp);
 	}
 
 	/**
@@ -174,26 +174,26 @@ class StatHat {
 		$url = STATHAT_EZ_ENDPOINT;
 
 		$params = array(
-			'http' => array(
-                'method' => 'POST',
-                'content' => $json,
-                'header' => array('Content-Type: application/json')
-        		)
+				'http' => array(
+					'method' => 'POST',
+					'content' => $json,
+					'header' => array('Content-Type: application/json')
+				)
 			);
-        
-        $context = stream_context_create($params);
 
-        $fp = @fopen($url, 'rb', false, $context);
-        
-        if (!$fp)
-        	throw new Exception("Problem with $url, $php_errormsg");
-        
-        $response = @stream_get_contents($fp);
+		$context = stream_context_create($params);
 
-        if ($response === false)
-        	throw new Exception("Problem reading data from $url, $php_errormsg");
-        
-        return $response;
+		$fp = @fopen($url, 'rb', false, $context);
+
+		if (!$fp)
+			throw new Exception("Problem with $url, $php_errormsg");
+
+		$response = @stream_get_contents($fp);
+
+		if ($response === false)
+			throw new Exception("Problem reading data from $url, $php_errormsg");
+
+		return $response;
 	}
 
 } // clas StatHat
